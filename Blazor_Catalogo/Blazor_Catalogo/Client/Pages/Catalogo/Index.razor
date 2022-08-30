@@ -53,21 +53,19 @@ else
     [Parameter]
     public int CategoriaId { get; set; }
 
-    
-
     protected override async Task OnParametersSetAsync()
-    {     
-            categorias = await http.GetJsonAsync<List<Categoria>>("api/categoria/todas");
-            if (CategoriaId == 0)
-            {
-                codigoCategoria = categorias[0].CategoriaId;
-            }
-            else
-            {
-                codigoCategoria = CategoriaId;
-            }
+    {
+        categorias = await http.GetJsonAsync<List<Categoria>>("api/categoria/todas");
+        if(CategoriaId == 0)
+        {
+            codigoCategoria = categorias[0].CategoriaId;
+        }
+        else
+        {
+            codigoCategoria = CategoriaId;
+        }
 
-            await CarregaProdutos();
+        await CarregaProdutos();
     }
 
 

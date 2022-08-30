@@ -2,19 +2,10 @@
 @inject HttpClient  http
 @inject NavigationManager navigation
 @using System.Text.Json
-@attribute [Authorize]
 
-<AuthorizeView Roles="root">
-    <Authorized>
-        <div>
-            <a class="btn btn-success" href="produto/create">Novo Produto</a>
-        </div>
-    </Authorized>
-    <NotAuthorized>
-        <h2>Somente usuário Admin pode incluir um produto</h2>
-    </NotAuthorized>
-</AuthorizeView>
-
+<div>
+    <a class="btn btn-success" href="produto/create">Novo Produto</a>
+</div>
 <br />
 <div class="form-inline">
     <label class="sr-only" for="filter-name">Filtro</label>
