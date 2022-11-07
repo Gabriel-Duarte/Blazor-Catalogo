@@ -3,3 +3,28 @@
 <h1>Catálogo de Produtos</h1>
 <hr />
 <h2>Macoratti.net</h2>
+
+@code{
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        var user = authState.User;
+
+        if(user.Identity.IsAuthenticated)
+        {
+            Console.WriteLine($"Bem-Vindo{user.Identity.Name}");
+            if (user.IsInRole("Admin"))
+            {
+                Console.WriteLine("Voce faz parte do perfil Admin");
+            }
+        }
+        else
+        {
+            Console.WriteLine("usuario não autenticado");
+        }
+    }
+}
+    
