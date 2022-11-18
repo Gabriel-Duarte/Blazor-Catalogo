@@ -17,7 +17,7 @@ namespace Blazor_Catalogo.Shared.Models
 
         [Required(ErrorMessage = "Informe o preço do produto")]
         public decimal Preco { get; set; }
-
+        
         public string ImagemUrl { get; set; }
 
         public int CategoriaId { get; set; }

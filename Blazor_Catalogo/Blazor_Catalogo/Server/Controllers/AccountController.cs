@@ -6,7 +6,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,23 +18,23 @@ namespace Blazor_Catalogo.Server.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IConfiguration _configuaration;
-
+        private readonly IConfiguration _configuration;
         public AccountController(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IConfiguration configuaration)
+          UserManager<IdentityUser> userManager,
+          SignInManager<IdentityUser> signInManager,
+          IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _configuaration = configuaration;
+            _configuration = configuration;
         }
 
         [HttpGet]
         public string Get()
         {
-            return $"AccountController :: {DateTime.Now.ToShortDateString()}";
+            return $"AccountController :: {DateTime.Now.ToShortDateString()} ";
         }
+
 
         [HttpPost("Register")]
         public async Task<ActionResult<UserToken>> Register([FromBody] UserInfo model)
@@ -45,13 +44,16 @@ namespace Blazor_Catalogo.Server.Controllers
                 UserName = model.Email,
                 Email = model.Email
             };
+
             var result = await _userManager.CreateAsync(user, model.Password);
-            
-            if(result.Succeeded)
+
+            if (result.Succeeded)
             {
+                // Incluir o novo usuário ao perfil User
                 await _userManager.AddToRoleAsync(user, "User");
 
-                if(user.Email.StartsWith("admin"))
+                //incluir um novo usuário com email que começa com admin no perfil Admin
+                if (user.Email.StartsWith("admin"))
                 {
                     await _userManager.AddToRoleAsync(user, "Admin");
                 }
@@ -59,27 +61,28 @@ namespace Blazor_Catalogo.Server.Controllers
             }
             else
             {
-                return BadRequest(new { message = "Senha ou nome do usuario invalidos..." });
+                return BadRequest(new { message = "Senha ou nome do usuário inválidos..." });
             }
         }
+
 
         [HttpPost("Login")]
         public async Task<ActionResult<UserToken>> Login([FromBody] UserInfo userInfo)
         {
             var result = await _signInManager.PasswordSignInAsync(userInfo.Email,
-                userInfo.Password, isPersistent: false, lockoutOnFailure: false);
-            
+               userInfo.Password, isPersistent: false, lockoutOnFailure: false);
+
             if (result.Succeeded)
             {
                 return await GenerateTokenAsync(userInfo);
             }
             else
             {
-                return BadRequest(new { message = "Login invalido" });
+                return BadRequest(new { message = "Login Inválido" });
             }
         }
-        
-          private async Task<UserToken> GenerateTokenAsync(UserInfo userInfo)
+
+        private async Task<UserToken> GenerateTokenAsync(UserInfo userInfo)
         {
             //var claims = new List<Claim>()
             //{
@@ -99,7 +102,7 @@ namespace Blazor_Catalogo.Server.Controllers
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuaration["JWT:key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:key"]));
             var creds =
                new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

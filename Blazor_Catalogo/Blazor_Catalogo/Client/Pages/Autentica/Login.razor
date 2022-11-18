@@ -8,67 +8,67 @@
         <h5>@Mensagem</h5>
     </Aviso>
 
-    <div class="card-body">
-        <h5 class="card-title">Login</h5>
-        <EditForm Model="userinfo" OnValidSubmit="FazerLogin">
-            <DataAnnotationsValidator />
+            <div class="card-body">
+                <h5 class="card-title">Login</h5>
+                <EditForm Model="userinfo" OnValidSubmit="FazerLogin">
+                    <DataAnnotationsValidator />
 
-            <div class="form-group">
-                <label>Email</label>
-                <InputText class="form-control"
-                           @bind-Value="userinfo.Email" />
-                <ValidationMessage For="@(()=> userinfo.Email)" />
+                    <div class="form-group">
+                        <label>Email</label>
+                        <InputText class="form-control"
+                                   @bind-Value="userinfo.Email" />
+                        <ValidationMessage For="@(()=> userinfo.Email)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <InputText type="password" class="form-control"
+                                   @bind-Value="userinfo.Password" />
+                        <ValidationMessage For="@(()=> userinfo.Password)" />
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary btn-sm">Login</button>
+                </EditForm>
             </div>
-            <div class="form-group">
-                <label>Password</label>
-                <InputText type="password" class="form-control"
-                           @bind-Value="userinfo.Password" />
-                <ValidationMessage For="@(()=> userinfo.Password)" />
-            </div>
-            <button type="submit" class="btn btn-outline-primary btn-sm">Login</button>
-        </EditForm>
-    </div>
-</div>
+        </div>
 
-@code {
-    private UserInfo userinfo = new UserInfo();
+ @code {
+        private UserInfo userinfo = new UserInfo();
 
-    bool loginFalhou = false;
+        bool loginFalhou = false;
 
-    [Parameter]
-    public string Mensagem { get; set; }
+        [Parameter]
+        public string Mensagem { get; set; }
 
-    async Task FazerLogin()
-    {
-        try
+        async Task FazerLogin()
         {
-            //var result = await http.PostJsonAsync<UserToken>("api/account/login", userinfo);
-
-            var loginAsJson = JsonSerializer.Serialize(userinfo);
-
-            var httpResponse = await http.PostAsync("api/account/login",
-                     new StringContent(loginAsJson, Encoding.UTF8, "application/json"));
-
-            if (httpResponse.IsSuccessStatusCode)
+            try
             {
-                var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+                //var result = await http.PostJsonAsync<UserToken>("api/account/login", userinfo);
 
-                var loginResult = JsonSerializer.Deserialize<UserToken>(responseAsString,
-                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                var loginAsJson = JsonSerializer.Serialize(userinfo);
 
-                await authStateProvider.Login(loginResult.Token);
-                navigation.NavigateTo("/");
+                var httpResponse = await http.PostAsync("api/account/login",
+                         new StringContent(loginAsJson, Encoding.UTF8, "application/json"));
+
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+
+                    var loginResult = JsonSerializer.Deserialize<UserToken>(responseAsString,
+                         new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    await authStateProvider.Login(loginResult.Token);
+                    navigation.NavigateTo("/");
+                }
+                else
+                {
+                    loginFalhou = true;
+                    Mensagem = $"Não foi possível realizar o Login do usuário.(Erro: {httpResponse.StatusCode})";
+                }
             }
-            else
+            catch (Exception)
             {
                 loginFalhou = true;
-                Mensagem = $"Não foi possível realizar o Login do usuário.(Erro: {httpResponse.StatusCode})";
+                Mensagem = "Não foi possível realizar o Login do Usuário...";
             }
         }
-        catch (Exception)
-        {
-            loginFalhou = true;
-            Mensagem = "Não foi possível realizar o Login do Usuário...";
-        }
     }
-}

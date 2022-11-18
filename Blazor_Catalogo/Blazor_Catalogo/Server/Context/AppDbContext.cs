@@ -10,7 +10,6 @@ namespace Blazor_Catalogo.Server.Context
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         { }
-
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Produto> Produtos { get; set; }
 
@@ -18,22 +17,14 @@ namespace Blazor_Catalogo.Server.Context
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<IdentityRole>().HasData(new IdentityRole
-            {
-                Name = "User",
-                NormalizedName = "USER",
-                Id = Guid.NewGuid().ToString(),
-                ConcurrencyStamp = Guid.NewGuid().ToString()
-            });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole 
+            { Name = "User", NormalizedName = "USER", Id = Guid.NewGuid().ToString(), 
+                ConcurrencyStamp = Guid.NewGuid().ToString() });
 
 
-            builder.Entity<IdentityRole>().HasData(new IdentityRole
-            {
-                Name = "Admin",
-                NormalizedName = "ADMIN",
-                Id = Guid.NewGuid().ToString(),
-                ConcurrencyStamp = Guid.NewGuid().ToString()
-            });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole 
+            { Name = "Admin", NormalizedName = "ADMIN", Id = Guid.NewGuid().ToString(), 
+                ConcurrencyStamp = Guid.NewGuid().ToString() });
         }
     }
 }

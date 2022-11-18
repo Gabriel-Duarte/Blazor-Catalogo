@@ -93,7 +93,7 @@
 
     private async Task CarregaCategorias()
     {
-        categorias = await http.GetJsonAsync<List<Categoria>>("api/categoria/todas");
+        categorias = await http.GetFromJsonAsync<List<Categoria>>("api/categoria/todas");
     }
 
     void CategoriaSelectionChanged(ChangeEventArgs e)

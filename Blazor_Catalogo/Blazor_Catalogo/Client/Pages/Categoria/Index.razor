@@ -2,82 +2,82 @@
 @inject HttpClient  http
 @using System.Text.Json
 
-<AuthorizeView>
-    <Authorized>
-        <div>
-            <a class="btn btn-success" href="categoria/create">Nova Categoria</a>
-        </div>
-        <br />
+    <AuthorizeView>
+        <Authorized>
+            <div>
+                <a class="btn btn-success" href="categoria/create">Nova Categoria</a>
+            </div>
+            <br />
 
-        <div class="form-inline">
-            <label class="sr-only" for="filter-name">Filtro</label>
-            <input type="text" class="form-control mb-2 mr-sm-2"
-                   @bind="nomeFiltro"
-                   placeholder="Filtrar pelo nome" />
-            <button type="button" class="btn btn-primary mr-sm-2 mb-2" @onclick="Filtrar">
-                Filtrar
-            </button>
-            <button type="button" class="btn btn-danger mb-2" @onclick="LimparFiltro">
-                Limpar
-            </button>
-        </div>
+            <div class="form-inline">
+                <label class="sr-only" for="filter-name">Filtro</label>
+                <input type="text" class="form-control mb-2 mr-sm-2"
+                       @bind="nomeFiltro"
+                       placeholder="Filtrar pelo nome" />
+                <button type="button" class="btn btn-primary mr-sm-2 mb-2" @onclick="Filtrar">
+                    Filtrar
+                </button>
+                <button type="button" class="btn btn-danger mb-2" @onclick="LimparFiltro">
+                    Limpar
+                </button>
+            </div>
 
-        <br />
+            <br />
 
-        @if (categorias == null)
-        {
-            <p><em>Carregando...</em></p>
-        }
-        else if (categorias.Count == 0)
-        {
-            <p><em>Não existem categorias cadastradas...</em></p>
-        }
-        else
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Categoria</th>
-                        <th>Descrição</th>
-                        <th>Edita</th>
-                        <th>Deleta</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var categoria in categorias)
-                    {
+            @if (categorias == null)
+            {
+                <p><em>Carregando...</em></p>
+            }
+            else if (categorias.Count == 0)
+            {
+                <p><em>Não existem categorias cadastradas...</em></p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>@categoria.Nome</td>
-                            <td>@categoria.Descricao</td>
-                            <td>
-                                <a class="btn btn-primary"
-                                   href="categoria/edit/@categoria.CategoriaId">Editar</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-danger"
-                                   @onclick="@(()=> DeletarCategoria(categoria.CategoriaId))"
-                                   style="color:white">Deletar</a>
-                            </td>
+                            <th>Categoria</th>
+                            <th>Descrição</th>
+                            <th>Edita</th>
+                            <th>Deleta</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        }
+                    </thead>
+                    <tbody>
+                        @foreach (var categoria in categorias)
+                        {
+                            <tr>
+                                <td>@categoria.Nome</td>
+                                <td>@categoria.Descricao</td>
+                                <td>
+                                    <a class="btn btn-primary"
+                                       href="categoria/edit/@categoria.CategoriaId">Editar</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger"
+                                       @onclick="@(()=> DeletarCategoria(categoria.CategoriaId))"
+                                       style="color:white">Deletar</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
 
-        <Confirma @ref="confirma" onCancela="@CancelaConfirma" onConfirma="@DeletaConfirma">
-            <div>Deseja realmente excluir este item ?</div>
-        </Confirma>
+            <Confirma @ref="confirma" onCancela="@CancelaConfirma" onConfirma="@DeletaConfirma">
+                <div>Deseja realmente excluir este item ?</div>
+            </Confirma>
 
-        <hr />
+            <hr />
 
-        <Paginacao QuantidadeTotalPaginas="QuantidadeTotalPaginas" paginaAtual="paginaAtual"
-                   Raio="2" PaginaSelecionada="PaginaSelecionada">
-        </Paginacao>
-    </Authorized>
-    <NotAuthorized>
-        <h2>Usuario não autorizado</h2>
-    </NotAuthorized>
-</AuthorizeView>
+            <Paginacao QuantidadeTotalPaginas="QuantidadeTotalPaginas" paginaAtual="paginaAtual"
+                       Raio="2" PaginaSelecionada="PaginaSelecionada">
+            </Paginacao>
+        </Authorized>
+        <NotAuthorized>
+            <h2>Usuário não autorizado...</h2>
+        </NotAuthorized>
+    </AuthorizeView>
 
 @code {
 

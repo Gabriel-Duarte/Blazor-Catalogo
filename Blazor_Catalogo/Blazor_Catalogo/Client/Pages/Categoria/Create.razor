@@ -15,7 +15,7 @@
 
     async Task CriarCategoria()
     {
-        await http.PostJsonAsync("api/categoria", categoria);
+        await http.PostAsJsonAsync("api/categoria", categoria);
         navigation.NavigateTo("categoria");
     }
 }

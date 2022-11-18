@@ -15,7 +15,7 @@
 
     async Task CriarProduto()
     {
-        await http.PostJsonAsync("api/produto", produto);
+        await http.PostAsJsonAsync("api/produto", produto);
         navigation.NavigateTo("produto");
     }
 }

@@ -17,14 +17,14 @@
 
     protected async override Task OnParametersSetAsync()
     {
-        produto = await http.GetJsonAsync<Produto>($"api/produto/{produtoid}");
+        produto = await http.GetFromJsonAsync<Produto>($"api/produto/{produtoid}");
         imagemRemota = produto.ImagemUrl;
     }
 
     async Task EditarProduto()
     {
         imagemRemota = null;
-        await http.PutJsonAsync("api/produto", produto);
+        await http.PutAsJsonAsync("api/produto", produto);
         navigation.NavigateTo("produto");
     }
 }

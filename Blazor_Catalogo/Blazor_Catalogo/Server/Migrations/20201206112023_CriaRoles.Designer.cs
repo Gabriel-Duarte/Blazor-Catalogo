@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blazor_Catalogo.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221106233248_CriarRoles")]
-    partial class CriarRoles
+    [Migration("20201206112023_CriaRoles")]
+    partial class CriaRoles
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.30")
+                .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -105,15 +105,15 @@ namespace Blazor_Catalogo.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a110d2c0-dfec-484c-bdcb-1c5d36821dc6",
-                            ConcurrencyStamp = "3a917599-4e69-43a9-9520-750822f0621a",
+                            Id = "5ab9618a-a958-49b1-8f35-63191d7d9681",
+                            ConcurrencyStamp = "1862655c-8735-402c-8d77-8241214d096e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "d08c93c2-e844-485c-803b-f8b5de7e157f",
-                            ConcurrencyStamp = "548dd711-29ec-440c-b9f9-00320f6dce6b",
+                            Id = "0983ef4d-8205-49e6-be54-8898de26effd",
+                            ConcurrencyStamp = "dbb4f7b2-5c9c-4dcd-9226-b29f747223eb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

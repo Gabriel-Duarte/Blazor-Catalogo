@@ -2,19 +2,19 @@
 
 namespace Blazor_Catalogo.Server.Migrations
 {
-    public partial class CriarRoles : Migration
+    public partial class CriaRoles : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "a110d2c0-dfec-484c-bdcb-1c5d36821dc6", "3a917599-4e69-43a9-9520-750822f0621a", "User", "USER" });
+                values: new object[] { "5ab9618a-a958-49b1-8f35-63191d7d9681", "1862655c-8735-402c-8d77-8241214d096e", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d08c93c2-e844-485c-803b-f8b5de7e157f", "548dd711-29ec-440c-b9f9-00320f6dce6b", "Admin", "ADMIN" });
+                values: new object[] { "0983ef4d-8205-49e6-be54-8898de26effd", "dbb4f7b2-5c9c-4dcd-9226-b29f747223eb", "Admin", "ADMIN" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -22,12 +22,12 @@ namespace Blazor_Catalogo.Server.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "a110d2c0-dfec-484c-bdcb-1c5d36821dc6");
+                keyValue: "0983ef4d-8205-49e6-be54-8898de26effd");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "d08c93c2-e844-485c-803b-f8b5de7e157f");
+                keyValue: "5ab9618a-a958-49b1-8f35-63191d7d9681");
         }
     }
 }

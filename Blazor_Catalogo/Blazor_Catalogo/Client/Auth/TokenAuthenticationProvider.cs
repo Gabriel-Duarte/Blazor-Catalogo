@@ -17,16 +17,20 @@ namespace Blazor_Catalogo.Client.Auth
         private readonly IJSRuntime js;
         private readonly HttpClient http;
         public static readonly string tokenKey = "tokenKey";
-        public TokenAuthenticationProvider(IJSRuntime jsRuntime, HttpClient httpClient)
+
+        public TokenAuthenticationProvider(IJSRuntime ijsRuntime, HttpClient httpClient )
         {
-            js = jsRuntime;
+            js = ijsRuntime;
             http = httpClient;
         }
-        private AuthenticationState notAuthenticate =>
+
+        private AuthenticationState notAuthenticate => 
             new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+
         public async override Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var token = await js.GetFromLocalStorage(tokenKey);
+
             if(string.IsNullOrEmpty(token))
             {
                 return notAuthenticate;
@@ -46,6 +50,7 @@ namespace Blazor_Catalogo.Client.Auth
             return new AuthenticationState(new ClaimsPrincipal
                 (new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt")));
         }
+
         private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
         {
             var claims = new List<Claim>();
@@ -73,7 +78,7 @@ namespace Blazor_Catalogo.Client.Auth
                 keyValuePairs.Remove(ClaimTypes.Role);
             }
 
-            claims.AddRange(keyValuePairs.Select(kvp =>
+            claims.AddRange(keyValuePairs.Select(kvp => 
             new Claim(kvp.Key, kvp.Value.ToString())));
             return claims;
         }
@@ -113,7 +118,7 @@ namespace Blazor_Catalogo.Client.Auth
             catch (Exception)
             {
                 throw;
-            }
+            }           
         }
     }
 }

@@ -19,12 +19,12 @@
     protected async override Task OnParametersSetAsync()
     {
         categoria = 
-        await http.GetJsonAsync<Categoria>($"api/categoria/{categoriaid}");
+        await http.GetFromJsonAsync<Categoria>($"api/categoria/{categoriaid}");
     }
 
     async Task EditarCategoria()
     {
-        await http.PutJsonAsync("api/categoria", categoria);
+        await http.PutAsJsonAsync("api/categoria", categoria);
         navigation.NavigateTo("categoria");
     }
 }

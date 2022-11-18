@@ -1,16 +1,39 @@
-﻿using Microsoft.AspNetCore.Blazor.Hosting;
+﻿using Blazor_Catalogo.Client.Auth;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Blazor_Catalogo.Client
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-        }
+            var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            builder.RootComponents.Add<App>("app");
 
-        public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
-            BlazorWebAssemblyHost.CreateDefaultBuilder()
-                .UseBlazorStartup<Startup>();
+            builder.Services.AddTransient(sp =>
+              new HttpClient
+              {
+                  BaseAddress =
+                  new Uri(builder.HostEnvironment.BaseAddress)
+              });
+
+            builder.Services.AddAuthorizationCore();
+
+            builder.Services.AddScoped<TokenAuthenticationProvider>();
+
+            builder.Services.AddScoped<IAuthorizeService, TokenAuthenticationProvider>(
+                           provider => provider.GetRequiredService<TokenAuthenticationProvider>()
+                           );
+
+            builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthenticationProvider>(
+             provider => provider.GetRequiredService<TokenAuthenticationProvider>());
+
+            await builder.Build().RunAsync();
+        }
     }
 }
